@@ -4,5 +4,9 @@
   "description": "Adds the ability to sort and filter your followed channels on Twitch.",
   "version": "1.0",
   "icons": {
-  }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["activeTab"]
 }
