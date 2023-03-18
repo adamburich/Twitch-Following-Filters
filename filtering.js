@@ -57,7 +57,6 @@ function AddFilter(){
     //In theory this call to ApplyFilters() doesn't need to be here
     //If we fill out the if(retrieved) branch and use the response object there we can apply the filters there and remove the call here.
     //But alas, it does not matter, it's been a long day, the program works, and I do not care.
-    ApplyFilters();
     AdjustCookies();
 }
 
@@ -93,6 +92,15 @@ async function AdjustCookies(){
     if(retrieved){
         (async () => {
             const response = await chrome.runtime.sendMessage({filters: filterList.join(','), filterMode: mode});
+            var filters = response.cookieFilters.split("|")[0];
+            if(filters.indexOf(",") != -1){
+                filterList = filters.split(",");
+            }
+            mode = response.cookieFilters.split("|")[1];
+            if(filterList.length > 0){
+                AddFilterUIObjects();
+            }
+            ApplyFilters();
           })();
     }else{
         (async () => {

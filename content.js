@@ -19,6 +19,7 @@ var interval = setInterval(function(){
       var insert_here = document.createElement("div");
       insert_here.setAttribute("id", "insert_filter_here");
       var main = document.getElementsByTagName("main")[0];
+      //Error here, sometimes this is undefined - Watching a channel, click following, big_brother undefined
       var big_brother = main.querySelector("div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div:nth-child(2)");
       
       var child_nodes = htmlToElements(`<div style="margin-bottom:28px; width:100%;">
