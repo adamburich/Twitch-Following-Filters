@@ -14,7 +14,6 @@ mode_select.addEventListener("change", ModeChange);
 
 function ApplyFilters(){
     var following = document.querySelector("#following-page-main-content > div:nth-child(1) > div > div").childNodes;
-    console.log("mode", mode);
     var hide = mode === "hide";
 
     for(let i = 0; i < following.length; i++){
@@ -34,7 +33,6 @@ function ApplyFilters(){
             }
         }
     }
-    //AdjustCookies();
 }
 
 function AddFilter(){
@@ -48,6 +46,10 @@ function AddFilter(){
     var filterContainer = document.getElementById("filter-container");
 
     filterContainer.appendChild(to_add);
+    
+    //In theory this call to ApplyFilters() doesn't need to be here
+    //If we fill out the if(retrieved) branch and use the response object there we can apply the filters there and remove the call here.
+    //But alas, it does not matter, it's been a long day, the program works, and I do not care.
     ApplyFilters();
     AdjustCookies();
 }
@@ -84,21 +86,15 @@ async function AdjustCookies(){
     if(retrieved){
         (async () => {
             const response = await chrome.runtime.sendMessage({filters: filterList.join(','), filterMode: mode});
-            // do something with response here, not outside the function
-            console.log(response.cookieFilters);
           })();
     }else{
         (async () => {
             const response = await chrome.runtime.sendMessage({filters: null, filterMode: null});
-            // do something with response here, not outside the function
             var filters = response.cookieFilters.split("|")[0];
             if(filters.indexOf(",") != -1){
                 filterList = filters.split(",");
             }
             mode = response.cookieFilters.split("|")[1];
-            console.log(response.cookieFilters);
-            console.log(filterList);
-            console.log(mode);
             if(filterList.length > 0){
                 AddFilterUIObjects();
             }
@@ -118,15 +114,6 @@ function AddFilterUIObjects(){
     
         filterContainer.appendChild(to_add);
     }
-}
-
-function GetCookieFilters(){
-     
-    (async () => {
-        const response = await chrome.runtime.sendMessage({filters: null, filterMode: null});
-        // do something with response here, not outside the function
-        console.log(response);
-      })();
 }
 
 window.onload = function(){

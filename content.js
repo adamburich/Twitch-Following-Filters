@@ -1,14 +1,9 @@
 const extensions = 'https://developer.chrome.com/docs/extensions'
 const webstore = 'https://developer.chrome.com/docs/webstore'
 
-window.onload = function(){
-    console.log("Window loaded, content.js can proceed");
-}
-
 function htmlToElements(html) {
     var template = document.createElement('template');
     template.innerHTML = html;
-    //console.log(template.content.childNodes);
     return template.content.childNodes;
 }
 
@@ -58,4 +53,3 @@ for (var i = 0; i < child_nodes.length; i++) {
     insert_here.appendChild(child_nodes[i])
 }
 big_brother.insertAdjacentElement("afterend", insert_here);
-console.log("logging", big_brother);
