@@ -17,7 +17,7 @@
     "service_worker": "js/background.js",
     "type": "module"
   },
-  "permissions": ["activeTab", "cookies"],
+  "permissions": ["activeTab", "cookies", "scripting"],
   "host_permissions": [
     "https://*.twitch.tv/*"
   ],

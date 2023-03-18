@@ -9,7 +9,8 @@ function Setup() {
     add_filter = document.getElementById("add-filter");
     remove_filters = document.getElementById("trashcan");
     mode_select = document.getElementById("mode");
-    mode = mode_select.value;
+    //mode = mode_select.value;
+    console.log("Mode during setup:", mode)
 
     add_filter.addEventListener("click", AddFilter);
     remove_filters.addEventListener("click", ClearFilters);
@@ -36,9 +37,9 @@ function Setup() {
 function GetGameList() {
     var games = document.querySelectorAll('[data-test-selector="GameLink"]');
     var gameList = [];
-    for(let i = 0; i < games.length; i++){
+    for (let i = 0; i < games.length; i++) {
         //console.log(games[i].innerText)
-        if(gameList.indexOf(games[i].innerText) == -1){
+        if (gameList.indexOf(games[i].innerText) == -1) {
             gameList.push(games[i].innerText);
         }
     }
@@ -80,12 +81,11 @@ function ModeChange() {
     mode = mode_select.value;
     var following = document.querySelectorAll("div.live-channel-card");
     for (let i = 0; i < following.length; i++) {
-        var channel = following[i].parentNode;
-        if (channel.style.display === "none" || channel.style.display === "") {
-            channel.style.display = "block";
+        if (following[i].parentNode.style.display === "none" || following[i].parentNode.style.display === "") {
+            following[i].parentNode.setAttribute("style", "display:block !important;");
         } else {
             if (filterList.length > 0) {
-                channel.style.display = "none";
+                following[i].parentNode.setAttribute("style", "display:none;");
             }
         }
     }
@@ -108,7 +108,7 @@ function ClearFilters() {
 async function AdjustCookies() {
     if (retrieved) {
         (async () => {
-            const response = await chrome.runtime.sendMessage({ url: "https://www.twitch.tv/directory/following", filters: filterList.join(','), filterMode: mode });
+            const response = await chrome.runtime.sendMessage({ filters: filterList.join(','), filterMode: mode });
             var filters = response.cookieFilters.split("|")[0];
             if (filters.length > 1) {
                 filterList = filters.split(",");
@@ -122,7 +122,7 @@ async function AdjustCookies() {
         })();
     } else {
         (async () => {
-            const response = await chrome.runtime.sendMessage({ url: "https://www.twitch.tv/directory/following", filters: null, filterMode: null });
+            const response = await chrome.runtime.sendMessage({ filters: null, filterMode: null });
             var filters = response.cookieFilters.split("|")[0];
             if (filters.length > 1) {
                 filterList = filters.split(",");
