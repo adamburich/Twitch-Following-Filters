@@ -8,7 +8,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://*.twitch.tv/directory/following/*"
+        "https://*.twitch.tv/directory/following/*",
+        "https://*.twitch.tv/*"        
       ],
       "js": ["content.js", "filtering.js"],
       "css": ["styles.css"]

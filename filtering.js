@@ -1,15 +1,22 @@
 var filterList = [];
 var mode;
 var retrieved = false;
+var add_filter;
+var remove_filters;
+var mode_select;
 
-var add_filter = document.getElementById("add-filter");
-var remove_filters = document.getElementById("trashcan");
-var mode_select = document.getElementById("mode");
-mode = mode_select.value;
-
-add_filter.addEventListener("click", AddFilter);
-remove_filters.addEventListener("click", ClearFilters);
-mode_select.addEventListener("change", ModeChange);
+function Setup(){
+    add_filter = document.getElementById("add-filter");
+    remove_filters = document.getElementById("trashcan");
+    mode_select = document.getElementById("mode");
+    mode = mode_select.value;
+    
+    add_filter.addEventListener("click", AddFilter);
+    remove_filters.addEventListener("click", ClearFilters);
+    mode_select.addEventListener("change", ModeChange);
+ 
+    AdjustCookies();
+}
 
 
 function ApplyFilters(){
@@ -114,8 +121,4 @@ function AddFilterUIObjects(){
     
         filterContainer.appendChild(to_add);
     }
-}
-
-window.onload = function(){
-    AdjustCookies();
 }
