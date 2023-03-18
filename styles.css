@@ -62,3 +62,26 @@ button:hover .tooltiptext {
     font-size: 16px;
     padding-left: 8px !important;
 }
+
+.autocomplete {
+    /*the container must be positioned relative:*/
+    position: relative;
+    display: inline-block;
+  }
+  .autocomplete-items {
+    position: absolute;
+  }
+  .autocomplete-items div {
+    padding: 5px;
+    cursor: pointer;
+    background-color: #3c3f43;
+  }
+  .autocomplete-items div:hover {
+    /*when hovering an item:*/
+    background-color: var(--color-text-link);
+  }
+  .autocomplete-active {
+    /*when navigating through the items using the arrow keys:*/
+    background-color: var(--color-text-link) !important;
+    color: #ffffff;
+  }

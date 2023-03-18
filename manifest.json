@@ -11,7 +11,7 @@
         "https://*.twitch.tv/directory/following/*",
         "https://*.twitch.tv/*"        
       ],
-      "js": ["content.js", "filtering.js"],
+      "js": ["content.js", "filtering.js", "autocomplete.js"],
       "css": ["styles.css"]
     }
   ],

@@ -5,36 +5,62 @@ var add_filter;
 var remove_filters;
 var mode_select;
 
-function Setup(){
+function Setup() {
     add_filter = document.getElementById("add-filter");
     remove_filters = document.getElementById("trashcan");
     mode_select = document.getElementById("mode");
     mode = mode_select.value;
-    
+
     add_filter.addEventListener("click", AddFilter);
     remove_filters.addEventListener("click", ClearFilters);
     mode_select.addEventListener("change", ModeChange);
- 
+
+    var main = document.getElementsByTagName("main")[0];
+    setTimeout(function () {
+        var following = document.querySelectorAll("div.live-channel-card");
+        //console.log(following);
+        main.addEventListener("click", function (event) {
+            for (let i = 0; i < following.length; i++) {
+                if (following[i].contains(event.target)) {
+                    UIBuilt = false;
+                }
+            }
+        })
+    }, 1000)
+    var games = GetGameList();
+    var field = document.getElementById("filter_name");
+    autocomplete(field, games);
     AdjustCookies();
 }
 
+function GetGameList() {
+    var games = document.querySelectorAll('[data-test-selector="GameLink"]');
+    var gameList = [];
+    for(let i = 0; i < games.length; i++){
+        //console.log(games[i].innerText)
+        if(gameList.indexOf(games[i].innerText) == -1){
+            gameList.push(games[i].innerText);
+        }
+    }
+    return gameList;
+}
 
-function ApplyFilters(){
+function ApplyFilters() {
     var following = document.querySelector("#following-page-main-content > div:nth-child(1) > div > div").childNodes;
     var hide = mode === "hide";
 
-    for(let i = 0; i < following.length; i++){
-        if(hide){
-            for(let j = 0; j < filterList.length; j++){
+    for (let i = 0; i < following.length; i++) {
+        if (hide) {
+            for (let j = 0; j < filterList.length; j++) {
                 var inner = following[i].innerHTML.toLowerCase();
-                if(inner.indexOf(filterList[j].toLowerCase()) != -1){
+                if (inner.indexOf(filterList[j].toLowerCase()) != -1) {
                     following[i].style.display = "none";
                 }
             }
-        }else{
-            for(let j = 0; j < filterList.length; j++){
+        } else {
+            for (let j = 0; j < filterList.length; j++) {
                 var inner = following[i].innerHTML.toLowerCase();
-                if(inner.indexOf(filterList[j].toLowerCase()) == -1){
+                if (inner.indexOf(filterList[j].toLowerCase()) == -1) {
                     following[i].style.display = "none";
                 }
             }
@@ -42,32 +68,22 @@ function ApplyFilters(){
     }
 }
 
-function AddFilter(){
+function AddFilter() {
     var filter_val = document.getElementById("filter_name").value;
-    filterList[filterList.length] = filter_val;
     document.getElementById("filter_name").value = "";
-    var to_add = document.createElement("div");
-    to_add.innerText = filter_val;
-    to_add.setAttribute("class", "filter");
+    filterList[filterList.length] = filter_val;
 
-    var filterContainer = document.getElementById("filter-container");
-
-    filterContainer.appendChild(to_add);
-    
-    //In theory this call to ApplyFilters() doesn't need to be here
-    //If we fill out the if(retrieved) branch and use the response object there we can apply the filters there and remove the call here.
-    //But alas, it does not matter, it's been a long day, the program works, and I do not care.
     AdjustCookies();
 }
 
-function ModeChange(){
+function ModeChange() {
     mode = mode_select.value;
     var following = document.querySelector("#following-page-main-content > div:nth-child(1) > div > div").childNodes;
-    for(let i = 0; i < following.length; i++){
-        if(following[i].style.display === "none"){
+    for (let i = 0; i < following.length; i++) {
+        if (following[i].style.display === "none") {
             following[i].style.display = "block";
-        }else{
-            if(filterList.length > 0){
+        } else {
+            if (filterList.length > 0) {
                 following[i].style.display = "none";
             }
         }
@@ -75,58 +91,70 @@ function ModeChange(){
     AdjustCookies();
 }
 
-function ClearFilters(){
+function ClearFilters() {
     var following = document.querySelector("#following-page-main-content > div:nth-child(1) > div > div").childNodes;
     var filter_div = document.getElementById("filter-container");
-    while(filter_div.firstChild){
+    while (filter_div.firstChild) {
         filter_div.removeChild(filter_div.firstChild);
     }
     filterList = [];
-    for(let i = 0; i < following.length; i++){
+    for (let i = 0; i < following.length; i++) {
         following[i].style.display = "block";
     }
     AdjustCookies();
 }
 
-async function AdjustCookies(){
-    if(retrieved){
+async function AdjustCookies() {
+    if (retrieved) {
         (async () => {
-            const response = await chrome.runtime.sendMessage({filters: filterList.join(','), filterMode: mode});
+            const response = await chrome.runtime.sendMessage({ filters: filterList.join(','), filterMode: mode });
             var filters = response.cookieFilters.split("|")[0];
-            if(filters.indexOf(",") != -1){
+            if (filters.length > 1) {
                 filterList = filters.split(",");
             }
             mode = response.cookieFilters.split("|")[1];
-            if(filterList.length > 0){
+            if (filterList.length > 0) {
                 AddFilterUIObjects();
             }
             ApplyFilters();
-          })();
-    }else{
+        })();
+    } else {
         (async () => {
-            const response = await chrome.runtime.sendMessage({filters: null, filterMode: null});
+            const response = await chrome.runtime.sendMessage({ filters: null, filterMode: null });
             var filters = response.cookieFilters.split("|")[0];
-            if(filters.indexOf(",") != -1){
+            if (filters.length > 1) {
                 filterList = filters.split(",");
             }
             mode = response.cookieFilters.split("|")[1];
-            if(filterList.length > 0){
+            if (filterList.length > 0) {
                 AddFilterUIObjects();
             }
             ApplyFilters();
-          })();
-          retrieved = true;
+        })();
+        retrieved = true;
     }
-    
+
 }
 
-function AddFilterUIObjects(){
+function AddFilterUIObjects() {
     var filterContainer = document.getElementById("filter-container");
-    for(let i = 0; i < filterList.length; i++){
-        var to_add = document.createElement("div");
-        to_add.innerText = filterList[i];
-        to_add.setAttribute("class", "filter");
-    
-        filterContainer.appendChild(to_add);
+    for (let i = 0; i < filterList.length; i++) {
+        var skip = false;
+        for (let j = 0; j < filterContainer.childNodes.length; j++) {
+            if (filterContainer.childNodes[j].innerText === filterList[i]) {
+                skip = true;
+            }
+        }
+        if (!skip) {
+            var to_add = document.createElement("div");
+            to_add.innerText = filterList[i];
+            to_add.setAttribute("class", "filter");
+
+            filterContainer.appendChild(to_add);
+        }
     }
+}
+
+window.onload = function () {
+    AdjustCookies();
 }
