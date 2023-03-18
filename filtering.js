@@ -78,13 +78,14 @@ function AddFilter() {
 
 function ModeChange() {
     mode = mode_select.value;
-    var following = document.querySelector("#following-page-main-content > div:nth-child(1) > div > div").childNodes;
+    var following = document.querySelectorAll("div.live-channel-card");
     for (let i = 0; i < following.length; i++) {
-        if (following[i].style.display === "none") {
-            following[i].style.display = "block";
+        var channel = following[i].parentNode;
+        if (channel.style.display === "none" || channel.style.display === "") {
+            channel.style.display = "block";
         } else {
             if (filterList.length > 0) {
-                following[i].style.display = "none";
+                channel.style.display = "none";
             }
         }
     }
@@ -113,6 +114,7 @@ async function AdjustCookies() {
                 filterList = filters.split(",");
             }
             mode = response.cookieFilters.split("|")[1];
+            mode_select.value = mode;
             if (filterList.length > 0) {
                 AddFilterUIObjects();
             }
@@ -126,6 +128,7 @@ async function AdjustCookies() {
                 filterList = filters.split(",");
             }
             mode = response.cookieFilters.split("|")[1];
+            mode_select.value = mode;
             if (filterList.length > 0) {
                 AddFilterUIObjects();
             }
