@@ -13,7 +13,6 @@ function GetCookie(address, callback){
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-      //if(request.filters != null && request.filterMode != null){
         console.log(sender.tab ?
                     "from a content script:" + sender.tab.url :
                     "from the extension");
@@ -25,19 +24,6 @@ chrome.runtime.onMessage.addListener(
             console.log(cookie.value);
             sendResponse({cookieFilters: cookie.value});
         });
-        // GetCookie(sender.tab.url, function(val){
-        //     sendResponse({cookieFilters: val});
-        // })
-        // sendResponse({cookieFilters: GetCookie(sender.tab.url, function(val){
-        //     return val;
-        // })});
-      //}else{
-        // GetCookie(sender.tab.url, function(val){
-        //     sendResponse({cookieFilters: val})
-        // });
-        //console.log(cookieJar);
-        //console.log(GetCookie(sender.tab.url));
-      //}
       return true;
     }
   );

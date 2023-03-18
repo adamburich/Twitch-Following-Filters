@@ -120,15 +120,6 @@ function AddFilterUIObjects(){
     }
 }
 
-// function AdjustCookies(){
-//         (async () => {
-//             const response = await chrome.runtime.sendMessage({filters: filterList.join(','), filterMode: mode});
-//             // do something with response here, not outside the function
-//             console.log(response.cookieFilters);
-//           })();
-        
-// }
-
 function GetCookieFilters(){
      
     (async () => {
@@ -137,18 +128,6 @@ function GetCookieFilters(){
         console.log(response);
       })();
 }
-
-// function GetCookieFilters(){
-//     return promise = new Promise(function(resolve){
-//         const response = chrome.runtime.sendMessage({filters: null, filterMode: null});
-//         response.onload = function(){
-//             console.log(response);
-//             resolve(response);
-//         };
-//         // do something with response here, not outside the function
-//         //console.log(response.cookieFilters);
-//       });
-// }
 
 window.onload = function(){
     AdjustCookies();
