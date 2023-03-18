@@ -1,13 +1,20 @@
+
+let UIBuilt = false;
+
 function htmlToElements(html) {
   var template = document.createElement('template');
   template.innerHTML = html;
   return template.content.childNodes;
 }
 
-let UIBuilt = false;
+var redirect_to_live = setInterval(function(){
+  if(window.location.href === "https://www.twitch.tv/directory/following"){
+    window.location.replace("https://www.twitch.tv/directory/following/live");
+  }
+}, 250);
 
 var interval = setInterval(function () {
-  if (!UIBuilt && (window.location.href === "https://www.twitch.tv/directory/following/live" || window.location.href === "https://www.twitch.tv/directory/following")) {
+  if (!UIBuilt && window.location.href === "https://www.twitch.tv/directory/following/live") {
     var styling = document.createElement("link");
     styling.setAttribute("rel", "stylesheet");
     styling.setAttribute("type", "text/css");
@@ -71,4 +78,4 @@ var interval = setInterval(function () {
     UIBuilt = true;
     Setup();
   }
-}, 1000)
+}, 750)

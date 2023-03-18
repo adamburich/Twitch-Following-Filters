@@ -108,7 +108,7 @@ function ClearFilters() {
 async function AdjustCookies() {
     if (retrieved) {
         (async () => {
-            const response = await chrome.runtime.sendMessage({ filters: filterList.join(','), filterMode: mode });
+            const response = await chrome.runtime.sendMessage({ url: "https://www.twitch.tv/directory/following", filters: filterList.join(','), filterMode: mode });
             var filters = response.cookieFilters.split("|")[0];
             if (filters.length > 1) {
                 filterList = filters.split(",");
@@ -122,7 +122,7 @@ async function AdjustCookies() {
         })();
     } else {
         (async () => {
-            const response = await chrome.runtime.sendMessage({ filters: null, filterMode: null });
+            const response = await chrome.runtime.sendMessage({ url: "https://www.twitch.tv/directory/following", filters: null, filterMode: null });
             var filters = response.cookieFilters.split("|")[0];
             if (filters.length > 1) {
                 filterList = filters.split(",");
