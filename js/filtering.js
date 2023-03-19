@@ -14,7 +14,7 @@ function Setup() {
 
     add_filter.addEventListener("click", AddFilter);
     remove_filters.addEventListener("click", ClearFilters);
-    mode_select.addEventListener("change", AdjustCookies);
+    mode_select.addEventListener("change", ModeChange);
 
     var main = document.getElementsByTagName("main")[0];
     
@@ -40,10 +40,6 @@ function Setup() {
         AdjustCookies();
     }, 1000)
 
-//     var games = GetGameList();
-//     var field = document.getElementById("filter_name");
-//     autocomplete(field, games);
-//     AdjustCookies();
 }
 
 function GetGameList() {
@@ -83,9 +79,7 @@ function ApplyFilters(mode_param) {
                     var inner = following[i].innerHTML.toLowerCase();
                     if (inner.indexOf(filterList[j].toLowerCase()) != -1) {
                         following[i].parentNode.style.display = "block";
-                    }//else{
-                    //     following[i].parentNode.style.display = "block";
-                    // }
+                    }
                 }
             }
         }
@@ -101,18 +95,7 @@ function AddFilter() {
 }
 
 function ModeChange() {
-    console.log("MODE CHANGE FIRING")
     mode = mode_select.value;
-    var following = document.querySelectorAll("div.live-channel-card");
-    for (let i = 0; i < following.length; i++) {
-        if (following[i].parentNode.style.display === "none" || following[i].parentNode.style.display === "") {
-            following[i].parentNode.setAttribute("style", "display:block !important;");
-        } else {
-            if (filterList.length > 0) {
-                following[i].parentNode.setAttribute("style", "display:none;");
-            }
-        }
-    }
     AdjustCookies();
 }
 
@@ -138,11 +121,6 @@ async function AdjustCookies() {
                 filterList = filters.split(",");
             }
             mode = response.cookieFilters.split("|")[1];
-            // mode_select.value = mode;
-            // if (filterList.length > 0) {
-            //     AddFilterUIObjects();
-            // }
-            // ApplyFilters(mode);
         })();
     } else {
         (async () => {
@@ -152,11 +130,6 @@ async function AdjustCookies() {
                 filterList = filters.split(",");
             }
             mode = response.cookieFilters.split("|")[1];
-            // mode_select.value = mode;
-            // if (filterList.length > 0) {
-            //     AddFilterUIObjects();
-            // }
-            // ApplyFilters(mode);
         })();
         retrieved = true;
     }

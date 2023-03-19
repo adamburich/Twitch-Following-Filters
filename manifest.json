@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Twitch Following Filters",
+  "name": "Following Filters for Twitch",
   "description": "Adds the ability to sort and filter your followed channels on Twitch.",
   "version": "1.0",
   "content_scripts": [
