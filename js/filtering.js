@@ -21,7 +21,7 @@ function Setup() {
     scroll.scrollTo(0, scroll.scrollHeight);
     setTimeout(function(){
         scroll.scrollTo(0, 0);
-    }, 500)
+    }, 100)
     setTimeout(function () {
         let following = document.querySelectorAll("div.live-channel-card");
         //console.log(following);
@@ -60,7 +60,7 @@ function ApplyFilters(mode_param) {
     let show_me = [];
 
     let hide = mode_param === "hide";
-    
+
     let select_mode = document.getElementById("mode");
     if(select_mode != null){
         document.getElementById("mode").value = mode_param;
@@ -155,6 +155,10 @@ async function AdjustCookies() {
             }
             mode = response.cookieFilters.split("|")[1];
         })();
+        if (filterList.length > 0) {
+            AddFilterUIObjects();
+        }
+        ApplyFilters(mode);
     } else {
         (async () => {
             const response = await chrome.runtime.sendMessage({ filters: null, filterMode: null });
@@ -165,11 +169,8 @@ async function AdjustCookies() {
             mode = response.cookieFilters.split("|")[1];
         })();
         retrieved = true;
+        AdjustCookies();
     }
-    if (filterList.length > 0) {
-        AddFilterUIObjects();
-    }
-    ApplyFilters(mode);
 
 }
 
@@ -196,5 +197,4 @@ function AddFilterUIObjects() {
 
 window.onload = function () {
     AdjustCookies();
-    setTimeout(AdjustCookies, 1000);
 }

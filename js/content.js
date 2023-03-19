@@ -40,7 +40,7 @@ var interval = setInterval(function () {
               <span class="tooltiptext">Filter Mode</span>
           </div>
           <div>
-            <textarea id="filter_name" style="font-family:sans-serif; height:35px; resize:none; color:white; background-color:#5c6066; border-radius:10px; border-color:#3c3f43; vertical-align:center; padding-left:10px; padding-top:8px;"></textarea>
+            <textarea id="filter_name" style="width:275px; font-family:sans-serif; height:35px; resize:none; color:white; background-color:#5c6066; border-radius:10px; border-color:#3c3f43; vertical-align:center; padding-left:10px; padding-top:8px;"></textarea>
             <button id="add-filter" class="filter-buttons">✓
                 <span class="tooltiptext">Add Filter</span>
             </button>
