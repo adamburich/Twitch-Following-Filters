@@ -9,8 +9,7 @@ function Setup() {
     add_filter = document.getElementById("add-filter");
     remove_filters = document.getElementById("trashcan");
     mode_select = document.getElementById("mode");
-    //mode = mode_select.value;
-    console.log("Mode during setup:", mode)
+    // console.log("Mode during setup:", mode)
 
     add_filter.addEventListener("click", AddFilter);
     remove_filters.addEventListener("click", ClearFilters);
@@ -46,7 +45,7 @@ function GetGameList() {
     let games = document.querySelectorAll('[data-test-selector="GameLink"]');
     let gameList = [];
     for (let i = 0; i < games.length; i++) {
-        //console.log(games[i].innerText)
+        // console.log(games[i].innerText)
         if (gameList.indexOf(games[i].innerText) == -1) {
             gameList.push(games[i].innerText);
         }
@@ -54,48 +53,14 @@ function GetGameList() {
     return gameList;
 }
 
-// function ApplyFilters(mode_param) {
-//     let following = document.querySelectorAll("div.live-channel-card");
-//     //let hide = mode === "hide";
-//     let hide = mode_param === "hide";
-//     let select_mode = document.getElementById("mode");
-//     if(select_mode != null){
-//         document.getElementById("mode").value = mode_param;
-//     }
-//     for (let i = 0; i < following.length; i++) {
-//         if(filterList.length > 0){
-//             if (hide) {
-//                 for (let j = 0; j < filterList.length; j++) {
-//                     let inner = following[i].innerHTML.toLowerCase();
-//                     if (inner.indexOf(filterList[j].toLowerCase()) != -1) {
-//                         following[i].parentNode.style.display = "none";
-//                     }else{
-//                         following[i].parentNode.style.display = "block";
-//                     }
-//                 }
-//             } else {
-//                 following[i].parentNode.style.display = "none";
-//                 for (let j = 0; j < filterList.length; j++) {
-//                     let inner = following[i].innerHTML.toLowerCase();
-//                     if (inner.indexOf(filterList[j].toLowerCase()) != -1) {
-//                         following[i].parentNode.style.display = "block";
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
-
-function ApplyHideFilter(follow_list, filt_list){
-
-}
-
 function ApplyFilters(mode_param) {
     let following = document.querySelectorAll("div.live-channel-card");
+
     let hide_me = [];
     let show_me = [];
-    //let hide = mode === "hide";
+
     let hide = mode_param === "hide";
+    
     let select_mode = document.getElementById("mode");
     if(select_mode != null){
         document.getElementById("mode").value = mode_param;
@@ -104,7 +69,7 @@ function ApplyFilters(mode_param) {
     for(let i = 0; i < following.length; i++){
         let inner = following[i].parentElement.innerText.toLowerCase();
         if(hide){
-            console.log("We should only see this message when dropdown is set to Hide")
+            // console.log("We should only see this message when dropdown is set to Hide")
             for(let j = 0; j < filterList.length; j++){
                 let thisFilter = filterList[j].toLowerCase();
                 if(inner.includes(thisFilter)){
@@ -114,8 +79,8 @@ function ApplyFilters(mode_param) {
                         show_me.splice(ind, 1, );
                     }
                 }else{
-                    console.log(inner)
-                    console.log(thisFilter)
+                    // console.log(inner)
+                    // console.log(thisFilter)
                     if(!hide_me.includes(following[i].parentElement)){
                         if(!show_me.includes(following[i].parentElement)){
                             show_me.push(following[i].parentElement);
@@ -124,7 +89,7 @@ function ApplyFilters(mode_param) {
                 }
             }
         }else{
-            console.log("We should only see this message when dropdown is set to Show")
+            // console.log("We should only see this message when dropdown is set to Show")
             for(let j = 0; j < filterList.length; j++){
                 let thisFilter = filterList[j].toLowerCase();
                 if(inner.includes(thisFilter)){
