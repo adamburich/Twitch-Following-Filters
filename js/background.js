@@ -1,5 +1,5 @@
 function StoreFListAsCookie(address, filterList, filterMode) {
-    chrome.cookies.set({ url: address, name: "TTV_Following_Filter_Cookie", value: filterList + "|" + filterMode });
+    chrome.cookies.set({ url: address, name: "TTV_Following_Filter_Cookie", value: filterList + "|" + filterMode, expirationDate: (new Date().getTime()/1000) + 2678400});
 }
 
 function GetCookie(address, callback) {
